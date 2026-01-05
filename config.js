@@ -1,7 +1,45 @@
 const staticConfig = {
     // ==================== BAILEYS & SESSION ====================
     BAILEYS: "@whiskeysockets/baileys",
-    SESSION_ID: process.env.SESSION_ID || "",
+    SESSION_ID: process.env.SESSION_ID || "
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        check-latest: true
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project (optional)
+      run: npm run build || echo "No build script found, skipping..."
+
+    - name: Start application
+      run: npm start
+",
     CDN: process.env.CDN || "https://bandaheali-cdn.koyeb.app",
 };
 
